@@ -67,13 +67,12 @@ if uploaded_file is not None:
 
             # Create a Matplotlib map on the right
             ax2 = plt.subplot(1, 2, 2)
+            fig2 = plt.figure(figsize=(6 * aspect_ratio, 6))
             plt.imshow(rain_trimmed, cmap='rainbow', extent=[longitude_trimmed.min(), longitude_trimmed.max(), latitude_trimmed.min(), latitude_trimmed.max()], vmax=5, origin='lower')
             plt.colorbar(label='mm/hr', orientation='vertical')
-            plt.title('Rainfall Prediction')
+            plt.title('Rainfall_Pred_KMA')
             plt.xlabel('Longitude')
             plt.ylabel('Latitude')
-
-            # Display the Matplotlib map on the right
             st.pyplot(fig2)
 
         else:
