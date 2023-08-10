@@ -68,20 +68,15 @@ if uploaded_file is not None:
 
 
         else:
-    # Display the heatmap using Matplotlib
+            # Display the heatmap using Matplotlib
             aspect_ratio = (longitude_trimmed.max() - longitude_trimmed.min()) / (latitude_trimmed.max() - latitude_trimmed.min())
-            fig2, ax2 = plt.subplots(figsize=(20, 10 / aspect_ratio))
-
-            heatmap2 = ax2.imshow(rain_trimmed, cmap='rainbow', extent=[longitude_trimmed.min(), longitude_trimmed.max(), latitude_trimmed.min(), latitude_trimmed.max()], vmax=5, origin='lower')
-            cbar2 = plt.colorbar(heatmap2, ax=ax2, label='mm/hr', orientation='vertical')
-            ax2.set_title('Rainfall Prediction')
-            ax2.set_xlabel('Longitude')
-            ax2.set_ylabel('Latitude')
-            ax2.set_xticks(np.linspace(longitude_trimmed.min(), longitude_trimmed.max(), num=5))
-            ax2.set_yticks(np.linspace(latitude_trimmed.min(), latitude_trimmed.max(), num=5))
-
-            # Display the Matplotlib map
-            st.pyplot(fig2)
+            fig = plt.figure(figsize=(6 * aspect_ratio, 6))
+            plt.imshow(rain_trimmed, cmap='rainbow', extent=[longitude_trimmed.min(), longitude_trimmed.max(), latitude_trimmed.min(), latitude_trimmed.max()], vmax=5, origin='lower')
+            plt.colorbar(label='mm/hr', orientation='vertical')
+            plt.title('Rainfall_Pred_KMA')
+            plt.xlabel('Longitude')
+            plt.ylabel('Latitude')
+            st.pyplot(fig)
 
     except Exception as e:
         st.write("Error during loading:", e)
