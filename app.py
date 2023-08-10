@@ -14,7 +14,7 @@ st.title('Rainfall Prediction - KMA')
 st.sidebar.title('Upload NetCDF File')
 uploaded_file = st.sidebar.file_uploader("Upload your NetCDF file", type=["nc"])
 
-show_cartopy_map = st.sidebar.checkbox("Show Cartopy Map")
+show_cartopy_map = st.sidebar.checkbox("Show Lager Images")
 
 if uploaded_file is not None:
     # Load NetCDF data
