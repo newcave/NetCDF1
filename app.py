@@ -2,19 +2,16 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
-import seaborn as sns
-import statsmodels.api as sm
 import folium
 import netCDF4 as nc
 import os
-import cartopy.crs as ccrs
 
 # Create a Streamlit app
 st.title('Rainfall Prediction - KMA')
 st.sidebar.title('Upload NetCDF File')
 uploaded_file = st.sidebar.file_uploader("Upload your NetCDF file", type=["nc"])
 
-show_cartopy_map = st.sidebar.checkbox("Show Cartopy Map")
+show_map = st.sidebar.checkbox("Show Map")
 
 if uploaded_file is not None:
     # Load NetCDF data
@@ -40,32 +37,16 @@ if uploaded_file is not None:
         # Trim the rain_array to match the shape of trimmed latitude and longitude arrays
         rain_trimmed = rain_array[:latitude_trimmed.shape[0], :latitude_trimmed.shape[1]]
 
-        if show_cartopy_map:
-            # Calculate aspect ratio
-            aspect_ratio = (longitude_trimmed.max() - longitude_trimmed.min()) / (latitude_trimmed.max() - latitude_trimmed.min())
+        if show_map:
+            # Create a Folium map
+            m = folium.Map(location=[latitude_trimmed.mean(), longitude_trimmed.mean()], zoom_start=10)
 
-            # Create the figure with adjusted size and aspect ratio
-            plt.figure(figsize=(10, 10 * aspect_ratio))
+            # Add heatmap layer to the map
+            folium.plugins.HeatMap(data=list(zip(latitude_trimmed.ravel(), longitude_trimmed.ravel(), rain_trimmed.ravel())), radius=10).add_to(m)
 
-            # Create a map using PlateCarree projection
-            ax = plt.axes(projection=ccrs.PlateCarree())
-
-            # Plot the heatmap using pcolormesh
-            heatmap = plt.pcolormesh(longitude_trimmed, latitude_trimmed, rain_trimmed, cmap='rainbow', vmax=5, transform=ccrs.PlateCarree())
-
-            # Add colorbar
-            cbar = plt.colorbar(heatmap, label='mm/hr')
-
-            # Set map title and labels
-            plt.title('Rainfall Prediction')
-            plt.xlabel('Longitude')
-            plt.ylabel('Latitude')
-
-            # Add coastlines
-            ax.coastlines()
-
-            # Show the plot
-            plt.show()
+            # Display the map using Streamlit's folium_static
+            st.write("Rainfall Heatmap")
+            st.folium_static(m)
         else:
             # Display the heatmap using Matplotlib
             aspect_ratio = (longitude_trimmed.max() - longitude_trimmed.min()) / (latitude_trimmed.max() - latitude_trimmed.min())
@@ -83,4 +64,4 @@ if uploaded_file is not None:
         os.remove(uploaded_file.name)  # Remove the temporary uploaded file
 
 else:
-    st.write("Please upload a NetCDF file using the sidebar.") 
+    st.write("Please upload a NetCDF file using the sidebar.")
