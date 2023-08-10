@@ -68,7 +68,8 @@ if uploaded_file is not None:
 
             # Show original image on clicking
             if cols[1].button("Click to Show Original Image"):
-                cols[1].pyplot(plt.imshow(rain_trimmed, cmap='rainbow', extent=[longitude_trimmed.min(), longitude_trimmed.max(), latitude_trimmed.min(), latitude_trimmed.max()], vmax=5, origin='lower'))
+                img = plt.imshow(rain_trimmed, cmap='rainbow', extent=[longitude_trimmed.min(), longitude_trimmed.max(), latitude_trimmed.min(), latitude_trimmed.max()], vmax=5, origin='lower')
+                cols[1].image(img)
                 
         else:
             # Display the heatmap using Matplotlib
