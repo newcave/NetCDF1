@@ -1,8 +1,13 @@
 import streamlit as st
+import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
-#import cartopy.crs as ccrs
+import seaborn as sns
+import statsmodels.api as sm
+import folium
 import netCDF4 as nc
+import os
+#import cartopy.crs as ccrs
 
 # Create a Streamlit app
 st.title('Rainfall Prediction - KMA')
