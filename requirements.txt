@@ -1,9 +1,9 @@
-#streamlit
-pandas
-numpy
-#matplotlib
+streamlit
+#pandas
+#numpy
+matplotlib
 #matplotlib.pyplot
 seaborn
-#statsmodels.api 
+#statsmodels.api
 folium
-netCDF4 
+netCDF4
