@@ -44,7 +44,7 @@ if uploaded_file is not None:
             aspect_ratio = (longitude_trimmed.max() - longitude_trimmed.min()) / (latitude_trimmed.max() - latitude_trimmed.min())
 
             # Create a map using PlateCarree projection
-            fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(10, 5 / aspect_ratio), subplot_kw={'projection': ccrs.PlateCarree()})
+            fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(14, 7 / aspect_ratio), subplot_kw={'projection': ccrs.PlateCarree()})
 
             # Plot the heatmap using pcolormesh on the first subplot
             heatmap = ax1.pcolormesh(longitude_trimmed, latitude_trimmed, rain_trimmed, cmap='rainbow', vmax=5, transform=ccrs.PlateCarree())
@@ -68,18 +68,9 @@ if uploaded_file is not None:
 
 
         else:
-            # Display the heatmap using Matplotlib
-            aspect_ratio = (longitude_trimmed.max() - longitude_trimmed.min()) / (latitude_trimmed.max() - latitude_trimmed.min())
-            fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(40, 20 / aspect_ratio))
+    # Display the heatmap using Matplotlib
+            fig2, ax2 = plt.subplots(figsize=(20, 10 / aspect_ratio))
 
-            # Plot the heatmap using imshow on the first subplot
-            heatmap = ax1.imshow(rain_trimmed, cmap='rainbow', extent=[longitude_trimmed.min(), longitude_trimmed.max(), latitude_trimmed.min(), latitude_trimmed.max()], vmax=5, origin='lower')
-            cbar = plt.colorbar(heatmap, ax=ax1, label='mm/hr', orientation='vertical')
-            ax1.set_title('Rainfall Prediction')
-            ax1.set_xlabel('Longitude')
-            ax1.set_ylabel('Latitude')
-
-            # Plot the heatmap using imshow on the second subplot
             heatmap2 = ax2.imshow(rain_trimmed, cmap='rainbow', extent=[longitude_trimmed.min(), longitude_trimmed.max(), latitude_trimmed.min(), latitude_trimmed.max()], vmax=5, origin='lower')
             cbar2 = plt.colorbar(heatmap2, ax=ax2, label='mm/hr', orientation='vertical')
             ax2.set_title('Rainfall Prediction')
@@ -88,8 +79,8 @@ if uploaded_file is not None:
             ax2.set_xticks(np.linspace(longitude_trimmed.min(), longitude_trimmed.max(), num=5))
             ax2.set_yticks(np.linspace(latitude_trimmed.min(), latitude_trimmed.max(), num=5))
 
-            # Display the plots using Streamlit
-            st.pyplot(fig)
+            # Display the Matplotlib map
+            st.pyplot(fig2)
 
     except Exception as e:
         st.write("Error during loading:", e)
