@@ -63,14 +63,15 @@ if uploaded_file is not None:
             ax.coastlines()
 
             # Show the plot
-            cols = st.columns(2)
-            cols[0].pyplot(fig)
-
-            # Show original image on clicking
-            if cols[1].button("Click to Show Original Image"):
-                img = plt.imshow(rain_trimmed, cmap='rainbow', extent=[longitude_trimmed.min(), longitude_trimmed.max(), latitude_trimmed.min(), latitude_trimmed.max()], vmax=5, origin='lower')
-                cols[1].image(img)
-                
+            st.pyplot(fig)
+            
+            # Additional plot below
+            fig_additional = plt.figure(figsize=(10, 6))
+            plt.plot(np.arange(len(rain_trimmed)), rain_trimmed.mean(axis=1))
+            plt.xlabel('Time')
+            plt.ylabel('Mean Rainfall (mm/hr)')
+            st.pyplot(fig_additional)
+            
         else:
             # Display the heatmap using Matplotlib
             aspect_ratio = (longitude_trimmed.max() - longitude_trimmed.min()) / (latitude_trimmed.max() - latitude_trimmed.min())
@@ -81,6 +82,13 @@ if uploaded_file is not None:
             plt.xlabel('Longitude')
             plt.ylabel('Latitude')
             st.pyplot(fig)
+            
+            # Additional plot below
+            fig_additional = plt.figure(figsize=(10, 6))
+            plt.plot(np.arange(len(rain_trimmed)), rain_trimmed.mean(axis=0))
+            plt.xlabel('Time')
+            plt.ylabel('Mean Rainfall (mm/hr)')
+            st.pyplot(fig_additional)
 
     except Exception as e:
         st.write("Error during loading:", e)
