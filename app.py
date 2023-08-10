@@ -78,6 +78,19 @@ if uploaded_file is not None:
             plt.ylabel('Latitude')
             st.pyplot(fig)
 
+
+            fig2 = plt.figure(figsize=(10, 10 / aspect_ratio))
+            ax = fig.add_subplot(1, 1, 1, projection=ccrs.PlateCarree())
+            heatmap = ax.pcolormesh(longitude_trimmed, latitude_trimmed, rain_trimmed, cmap='rainbow', vmax=5, transform=ccrs.PlateCarree())
+            cbar = plt.colorbar(heatmap, ax=ax, label='mm/hr', orientation='vertical')
+            ax.set_title('Rainfall Prediction')
+            ax.set_xlabel('Longitude')
+            ax.set_ylabel('Latitude')
+            # Add coastlines
+            ax.coastlines()
+            # Show the plot
+            st.pyplot(fig2)
+
     except Exception as e:
         st.write("Error during loading:", e)
     finally:
