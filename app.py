@@ -7,7 +7,8 @@ import statsmodels.api as sm
 import folium
 import netCDF4 as nc
 import os
-import cartopy.crs as ccrs
+import cartopy
+#import cartopy.crs as ccrs
 
 # Create a Streamlit app
 st.title('Rainfall Prediction - KMA')
