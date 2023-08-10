@@ -4,6 +4,7 @@ streamlit
 matplotlib
 #matplotlib.pyplot
 seaborn
-#statsmodels.api
+statsmodels
+#.api
 folium
 netCDF4
