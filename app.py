@@ -83,4 +83,4 @@ if uploaded_file is not None:
         os.remove(uploaded_file.name)  # Remove the temporary uploaded file
 
 else:
-    st.write("Please upload a NetCDF file using the sidebar.")
+    st.write("Please upload a NetCDF file using the sidebar.") 
