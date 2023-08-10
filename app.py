@@ -44,7 +44,7 @@ if uploaded_file is not None:
             aspect_ratio = (longitude_trimmed.max() - longitude_trimmed.min()) / (latitude_trimmed.max() - latitude_trimmed.min())
 
             # Create a map using PlateCarree projection
-            fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(30, 15 / aspect_ratio), subplot_kw={'projection': ccrs.PlateCarree()})
+            fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(40, 20 / aspect_ratio), subplot_kw={'projection': ccrs.PlateCarree()})
 
             # Plot the heatmap using pcolormesh on the first subplot
             heatmap = ax1.pcolormesh(longitude_trimmed, latitude_trimmed, rain_trimmed, cmap='rainbow', vmax=5, transform=ccrs.PlateCarree())
@@ -70,7 +70,7 @@ if uploaded_file is not None:
         else:
             # Display the heatmap using Matplotlib
             aspect_ratio = (longitude_trimmed.max() - longitude_trimmed.min()) / (latitude_trimmed.max() - latitude_trimmed.min())
-            fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(20, 10 / aspect_ratio))
+            fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(40, 20 / aspect_ratio))
 
             # Plot the heatmap using imshow on the first subplot
             heatmap = ax1.imshow(rain_trimmed, cmap='rainbow', extent=[longitude_trimmed.min(), longitude_trimmed.max(), latitude_trimmed.min(), latitude_trimmed.max()], vmax=5, origin='lower')
@@ -85,6 +85,8 @@ if uploaded_file is not None:
             ax2.set_title('Rainfall Prediction')
             ax2.set_xlabel('Longitude')
             ax2.set_ylabel('Latitude')
+            ax2.set_xticks(np.linspace(longitude_trimmed.min(), longitude_trimmed.max(), num=5))
+            ax2.set_yticks(np.linspace(latitude_trimmed.min(), latitude_trimmed.max(), num=5))
 
             # Display the plots using Streamlit
             st.pyplot(fig)
