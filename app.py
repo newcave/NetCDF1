@@ -77,7 +77,7 @@ if uploaded_file is not None:
             plt.xlabel('Longitude')
             plt.ylabel('Latitude')
             st.pyplot(fig)
-
+            
 
 # Calculate aspect ratio
             aspect_ratio = (longitude_trimmed.max() - longitude_trimmed.min()) / (latitude_trimmed.max() - latitude_trimmed.min())
