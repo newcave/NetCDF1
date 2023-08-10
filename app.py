@@ -62,7 +62,7 @@ if uploaded_file is not None:
             ax2.set_ylabel('Latitude')
             ax2.set_xticks(np.linspace(longitude_trimmed.min(), longitude_trimmed.max(), num=5))
             ax2.set_yticks(np.linspace(latitude_trimmed.min(), latitude_trimmed.max(), num=5))
-
+    
             # Display the plots using Streamlit
             st.pyplot(fig)
 
@@ -75,12 +75,16 @@ if uploaded_file is not None:
             ax1.set_ylabel('Latitude')
             ax1.coastlines()
 
-            xticks = np.arange(longitude_trimmed.min(), longitude_trimmed.max() + 1, 2)  # Customize the tick positions as needed
-            yticks = np.arange(latitude_trimmed.min(), latitude_trimmed.max() + 1, 2)  # Customize the tick positions as needed
+            xticks = np.arange(longitude_trimmed.min(), longitude_trimmed.max() + 1, 2)  
+            yticks = np.arange(latitude_trimmed.min(), latitude_trimmed.max() + 1, 2) 
             ax1.set_xticks(xticks, crs=ccrs.PlateCarree())
             ax1.set_yticks(yticks, crs=ccrs.PlateCarree())
             ax1.xaxis.set_major_formatter(plt.FixedFormatter(np.abs(xticks)))
             ax1.yaxis.set_major_formatter(plt.FixedFormatter(np.abs(yticks)))
+            xticklabels = ['{:.3f}'.format(x) for x in xticks]
+            yticklabels = ['{:.3f}'.format(y) for y in yticks]
+            ax1.set_xticklabels(xticklabels)
+            ax1.set_yticklabels(yticklabels)
             st.pyplot(fig2)
             
     
