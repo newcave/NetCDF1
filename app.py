@@ -44,7 +44,7 @@ if uploaded_file is not None:
             aspect_ratio = (longitude_trimmed.max() - longitude_trimmed.min()) / (latitude_trimmed.max() - latitude_trimmed.min())
 
             # Create a map using PlateCarree projection
-            fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(40, 20 / aspect_ratio), subplot_kw={'projection': ccrs.PlateCarree()})
+            fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(20, 10 / aspect_ratio), subplot_kw={'projection': ccrs.PlateCarree()})
 
             # Plot the heatmap using pcolormesh on the first subplot
             heatmap = ax1.pcolormesh(longitude_trimmed, latitude_trimmed, rain_trimmed, cmap='rainbow', vmax=5, transform=ccrs.PlateCarree())
