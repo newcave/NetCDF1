@@ -41,28 +41,28 @@ if uploaded_file is not None:
         rain_trimmed = rain_array[:latitude_trimmed.shape[0], :latitude_trimmed.shape[1]]
 
         if show_cartopy_map:
- aspect_ratio = (longitude_trimmed.max() - longitude_trimmed.min()) / (latitude_trimmed.max() - latitude_trimmed.min())
+            aspect_ratio = (longitude_trimmed.max() - longitude_trimmed.min()) / (latitude_trimmed.max() - latitude_trimmed.min())
 
 # Create a map using PlateCarree projection
-fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(20, 10 / aspect_ratio), subplot_kw={'projection': ccrs.PlateCarree()})
+            fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(20, 10 / aspect_ratio), subplot_kw={'projection': ccrs.PlateCarree()})
 
 # Plot the heatmap using pcolormesh on the first subplot
-heatmap = ax1.pcolormesh(longitude_trimmed, latitude_trimmed, rain_trimmed, cmap='rainbow', vmax=5, transform=ccrs.PlateCarree())
-cbar = plt.colorbar(heatmap, ax=ax1, label='mm/hr', orientation='vertical')
-ax1.set_title('Rainfall Prediction (Cartopy)')
-ax1.set_xlabel('Longitude')
-ax1.set_ylabel('Latitude')
-ax1.coastlines()
+            heatmap = ax1.pcolormesh(longitude_trimmed, latitude_trimmed, rain_trimmed, cmap='rainbow', vmax=5, transform=ccrs.PlateCarree())
+            cbar = plt.colorbar(heatmap, ax=ax1, label='mm/hr', orientation='vertical')
+            ax1.set_title('Rainfall Prediction (Cartopy)')
+            ax1.set_xlabel('Longitude')
+            ax1.set_ylabel('Latitude')
+            ax1.coastlines()
 
 # Plot the heatmap using imshow on the second subplot
-heatmap2 = ax2.imshow(rain_trimmed, cmap='rainbow', extent=[longitude_trimmed.min(), longitude_trimmed.max(), latitude_trimmed.min(), latitude_trimmed.max()], vmax=5, origin='lower')
-cbar2 = plt.colorbar(heatmap2, ax=ax2, label='mm/hr', orientation='vertical')
-ax2.set_title('Rainfall Prediction')
-ax2.set_xlabel('Longitude')
-ax2.set_ylabel('Latitude')
+            heatmap2 = ax2.imshow(rain_trimmed, cmap='rainbow', extent=[longitude_trimmed.min(), longitude_trimmed.max(), latitude_trimmed.min(), latitude_trimmed.max()], vmax=5, origin='lower')
+            cbar2 = plt.colorbar(heatmap2, ax=ax2, label='mm/hr', orientation='vertical')
+            ax2.set_title('Rainfall Prediction')
+            ax2.set_xlabel('Longitude')
+            ax2.set_ylabel('Latitude')
 
 # Display the plots using Streamlit
-st.pyplot(fig)
+            st.pyplot(fig)
 
         else:
             # Display the heatmap using Matplotlib
