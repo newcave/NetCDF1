@@ -40,7 +40,7 @@ if uploaded_file is not None:
         # Trim the rain_array to match the shape of trimmed latitude and longitude arrays
         rain_trimmed = rain_array[:latitude_trimmed.shape[0], :latitude_trimmed.shape[1]]
 
-        if show_cartopy_map:
+    if show_cartopy_map:
             aspect_ratio = (longitude_trimmed.max() - longitude_trimmed.min()) / (latitude_trimmed.max() - latitude_trimmed.min())
 
             # Create a map using PlateCarree projection
@@ -60,9 +60,12 @@ if uploaded_file is not None:
             ax2.set_title('Rainfall Prediction')
             ax2.set_xlabel('Longitude')
             ax2.set_ylabel('Latitude')
+            ax2.set_xticks(np.linspace(longitude_trimmed.min(), longitude_trimmed.max(), num=5))
+            ax2.set_yticks(np.linspace(latitude_trimmed.min(), latitude_trimmed.max(), num=5))
 
             # Display the plots using Streamlit
             st.pyplot(fig)
+
 
         else:
             # Display the heatmap using Matplotlib
