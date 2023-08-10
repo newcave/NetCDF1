@@ -65,15 +65,18 @@ if uploaded_file is not None:
             # Show the plot
             st.pyplot(fig)
             
-            # Additional plot below
+            # Additional plot to the right
             aspect_ratio = (longitude_trimmed.max() - longitude_trimmed.min()) / (latitude_trimmed.max() - latitude_trimmed.min())
-            fig2 = plt.figure(figsize=(6 * aspect_ratio, 6))
+            fig2 = plt.figure(figsize=(6, 6))
             plt.imshow(rain_trimmed, cmap='rainbow', extent=[longitude_trimmed.min(), longitude_trimmed.max(), latitude_trimmed.min(), latitude_trimmed.max()], vmax=5, origin='lower')
             plt.colorbar(label='mm/hr', orientation='vertical')
             plt.title('Rainfall_Pred_KMA')
             plt.xlabel('Longitude')
             plt.ylabel('Latitude')
-            st.pyplot(fig2)
+            
+            cols = st.columns([1, 2])
+            cols[0].pyplot(fig2)
+            cols[1].write("fig added")
             
         else:
             # Display the heatmap using Matplotlib
