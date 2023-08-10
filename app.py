@@ -46,10 +46,10 @@ if uploaded_file is not None:
             heatmap_data = list(zip(latitude_trimmed.ravel(), longitude_trimmed.ravel(), rain_trimmed.ravel()))
             plugins.HeatMap(heatmap_data, radius=10, blur=20).add_to(m)
 
-            # Display the map using an iframe
+            # Display the map using Streamlit's st.components.v1.html method
             st.write("Rainfall Heatmap")
             folium_map_html = m._repr_html_()
-            st.write(folium_map_html, unsafe_allow_html=True)
+            st.components.v1.html(folium_map_html, height=500)
         else:
             # Display the heatmap using Matplotlib
             aspect_ratio = (longitude_trimmed.max() - longitude_trimmed.min()) / (latitude_trimmed.max() - latitude_trimmed.min())
