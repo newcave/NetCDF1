@@ -68,6 +68,14 @@ if uploaded_file is not None:
 
 
         else:
+            fig2, ax1 = plt.subplots(figsize=(10, 8), subplot_kw={'projection': ccrs.PlateCarree()})
+            heatmap = ax1.pcolormesh(longitude_trimmed, latitude_trimmed, rain_trimmed, cmap='rainbow', vmax=5, transform=ccrs.PlateCarree())
+            cbar = plt.colorbar(heatmap, ax=ax1, label='mm/hr', orientation='vertical')
+            ax1.set_xlabel('Longitude')
+            ax1.set_ylabel('Latitude')
+            ax1.coastlines()
+            st.pyplot(fig2)
+            
             # Display the heatmap using Matplotlib
             aspect_ratio = (longitude_trimmed.max() - longitude_trimmed.min()) / (latitude_trimmed.max() - latitude_trimmed.min())
             fig = plt.figure(figsize=(6 * aspect_ratio, 6))
@@ -78,13 +86,7 @@ if uploaded_file is not None:
             plt.ylabel('Latitude')
             st.pyplot(fig)
             
-            fig2, ax1 = plt.subplots(figsize=(10, 8), subplot_kw={'projection': ccrs.PlateCarree()})
-            heatmap = ax1.pcolormesh(longitude_trimmed, latitude_trimmed, rain_trimmed, cmap='rainbow', vmax=5, transform=ccrs.PlateCarree())
-            cbar = plt.colorbar(heatmap, ax=ax1, label='mm/hr', orientation='vertical')
-            ax1.set_xlabel('Longitude')
-            ax1.set_ylabel('Latitude')
-            ax1.coastlines()
-            st.pyplot(fig2)
+
 
     except Exception as e:
         st.write("Error during loading:", e)
