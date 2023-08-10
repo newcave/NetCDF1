@@ -45,25 +45,37 @@ if uploaded_file is not None:
             aspect_ratio = (longitude_trimmed.max() - longitude_trimmed.min()) / (latitude_trimmed.max() - latitude_trimmed.min())
 
             # Create a map using PlateCarree projection
-            fig = plt.figure(figsize=(10, 10 / aspect_ratio))
-            ax = fig.add_subplot(1, 1, 1, projection=ccrs.PlateCarree())
+            fig1, ax1 = plt.subplots(figsize=(10, 10 / aspect_ratio))
+            ax1 = plt.subplot(1, 2, 1, projection=ccrs.PlateCarree())
 
             # Plot the heatmap using pcolormesh
-            heatmap = ax.pcolormesh(longitude_trimmed, latitude_trimmed, rain_trimmed, cmap='rainbow', vmax=5, transform=ccrs.PlateCarree())
+            heatmap = ax1.pcolormesh(longitude_trimmed, latitude_trimmed, rain_trimmed, cmap='rainbow', vmax=5, transform=ccrs.PlateCarree())
 
             # Add colorbar
-            cbar = plt.colorbar(heatmap, ax=ax, label='mm/hr', orientation='vertical')
+            cbar = plt.colorbar(heatmap, ax=ax1, label='mm/hr', orientation='vertical')
 
             # Set map title and labels
-            ax.set_title('Rainfall Prediction')
-            ax.set_xlabel('Longitude')
-            ax.set_ylabel('Latitude')
+            ax1.set_title('Rainfall Prediction (Cartopy)')
+            ax1.set_xlabel('Longitude')
+            ax1.set_ylabel('Latitude')
 
             # Add coastlines
-            ax.coastlines()
+            ax1.coastlines()
 
-            # Show the plot
-            st.pyplot(fig)
+            # Display the Cartopy map on the left
+            st.pyplot(fig1)
+
+            # Create a Matplotlib map on the right
+            ax2 = plt.subplot(1, 2, 2)
+            plt.imshow(rain_trimmed, cmap='rainbow', extent=[longitude_trimmed.min(), longitude_trimmed.max(), latitude_trimmed.min(), latitude_trimmed.max()], vmax=5, origin='lower')
+            plt.colorbar(label='mm/hr', orientation='vertical')
+            plt.title('Rainfall Prediction')
+            plt.xlabel('Longitude')
+            plt.ylabel('Latitude')
+
+            # Display the Matplotlib map on the right
+            st.pyplot(fig2)
+
         else:
             # Display the heatmap using Matplotlib
             aspect_ratio = (longitude_trimmed.max() - longitude_trimmed.min()) / (latitude_trimmed.max() - latitude_trimmed.min())
