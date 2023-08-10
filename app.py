@@ -6,6 +6,7 @@ import seaborn as sns
 import statsmodels.api as sm
 import folium
 import netCDF4 as nc
+import os
 
 # Create a Streamlit app
 st.title('Rainfall Prediction - KMA')
@@ -13,11 +14,12 @@ st.sidebar.title('Upload NetCDF File')
 uploaded_file = st.sidebar.file_uploader("Upload your NetCDF file", type=["nc"])
 
 if uploaded_file is not None:
-    st.write("Uploaded file:", uploaded_file.name)  # Debugging line
-
+    # Load NetCDF data
+    with open(uploaded_file.name, "wb") as f:
+        f.write(uploaded_file.read())
+    
     try:
-        # Load NetCDF data
-        df = nc.Dataset(uploaded_file)
+        df = nc.Dataset(uploaded_file.name)
         df_var = df.variables['rain'][:]
         rain_array = np.array(df_var)
 
@@ -46,6 +48,8 @@ if uploaded_file is not None:
 
         st.pyplot(fig)
     except Exception as e:
-        st.write("Error during loading:", e)  # Debugging line
+        st.write("Error during loading:", e)
+    finally:
+        os.remove(uploaded_file.name)  # Remove the temporary uploaded file
 else:
     st.write("Please upload a NetCDF file using the sidebar.")
