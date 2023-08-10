@@ -5,8 +5,8 @@ matplotlib
 #matplotlib.pyplot
 seaborn
 statsmodels
+cartopy
 #statsmodels.api
 folium
 netCDF4
-cartopy==0.19.0
 os
