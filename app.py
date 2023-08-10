@@ -66,11 +66,14 @@ if uploaded_file is not None:
             st.pyplot(fig)
             
             # Additional plot below
-            fig_additional = plt.figure(figsize=(10, 6))
-            plt.plot(np.arange(len(rain_trimmed)), rain_trimmed.mean(axis=1))
-            plt.xlabel('Time')
-            plt.ylabel('Mean Rainfall (mm/hr)')
-            st.pyplot(fig_additional)
+            aspect_ratio = (longitude_trimmed.max() - longitude_trimmed.min()) / (latitude_trimmed.max() - latitude_trimmed.min())
+            fig2 = plt.figure(figsize=(6 * aspect_ratio, 6))
+            plt.imshow(rain_trimmed, cmap='rainbow', extent=[longitude_trimmed.min(), longitude_trimmed.max(), latitude_trimmed.min(), latitude_trimmed.max()], vmax=5, origin='lower')
+            plt.colorbar(label='mm/hr', orientation='vertical')
+            plt.title('Rainfall_Pred_KMA')
+            plt.xlabel('Longitude')
+            plt.ylabel('Latitude')
+            st.pyplot(fig2)
             
         else:
             # Display the heatmap using Matplotlib
@@ -83,12 +86,7 @@ if uploaded_file is not None:
             plt.ylabel('Latitude')
             st.pyplot(fig)
             
-            # Additional plot below
-            fig_additional = plt.figure(figsize=(10, 6))
-            plt.plot(np.arange(len(rain_trimmed)), rain_trimmed.mean(axis=0))
-            plt.xlabel('Time')
-            plt.ylabel('Mean Rainfall (mm/hr)')
-            st.pyplot(fig_additional)
+   
 
     except Exception as e:
         st.write("Error during loading:", e)
