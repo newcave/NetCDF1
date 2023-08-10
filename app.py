@@ -78,27 +78,12 @@ if uploaded_file is not None:
             plt.ylabel('Latitude')
             st.pyplot(fig)
             
-
-# Calculate aspect ratio
-            aspect_ratio = (longitude_trimmed.max() - longitude_trimmed.min()) / (latitude_trimmed.max() - latitude_trimmed.min())
-
-            # Create a map using PlateCarree projection
-            fig2 = plt.figure(figsize=(10, 10 / aspect_ratio))
-            # Plot the heatmap using pcolormesh
-            heatmap = pcolormesh(longitude_trimmed, latitude_trimmed, rain_trimmed, cmap='rainbow', vmax=5, transform=ccrs.PlateCarree())
-
-            # Add colorbar
-            cbar = plt.colorbar(heatmap, ax=ax, label='mm/hr', orientation='vertical')
-
-            # Set map title and labels
-            plt.set_title('Rainfall Prediction')
-            plt.set_xlabel('Longitude')
-            plt.set_ylabel('Latitude')
-
-            # Add coastlines
-            coastlines()
-
-            # Show the plot
+            fig2, ax1 = plt.subplots(figsize=(10, 8), subplot_kw={'projection': ccrs.PlateCarree()})
+            heatmap = ax1.pcolormesh(longitude_trimmed, latitude_trimmed, rain_trimmed, cmap='rainbow', vmax=5, transform=ccrs.PlateCarree())
+            cbar = plt.colorbar(heatmap, ax=ax1, label='mm/hr', orientation='vertical')
+            ax1.set_xlabel('Longitude')
+            ax1.set_ylabel('Latitude')
+            ax1.coastlines()
             st.pyplot(fig2)
 
     except Exception as e:
