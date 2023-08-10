@@ -3,6 +3,7 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import folium
+from folium import plugins
 import netCDF4 as nc
 import os
 
@@ -41,10 +42,9 @@ if uploaded_file is not None:
             # Create a Folium map
             m = folium.Map(location=[latitude_trimmed.mean(), longitude_trimmed.mean()], zoom_start=10)
 
-            # Add heatmap layer to the map using Folium's heatmap function
+            # Add heatmap layer to the map using Folium's HeatMap class
             heatmap_data = list(zip(latitude_trimmed.ravel(), longitude_trimmed.ravel(), rain_trimmed.ravel()))
-            folium.TileLayer('cartodbpositron').add_to(m)
-            folium.HeatMap(heatmap_data, radius=10, blur=20).add_to(m)
+            plugins.HeatMap(heatmap_data, radius=10, blur=20).add_to(m)
 
             # Display the map using Streamlit's folium_static
             st.write("Rainfall Heatmap")
