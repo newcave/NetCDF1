@@ -40,7 +40,7 @@ if uploaded_file is not None:
         # Trim the rain_array to match the shape of trimmed latitude and longitude arrays
         rain_trimmed = rain_array[:latitude_trimmed.shape[0], :latitude_trimmed.shape[1]]
 
-    if show_cartopy_map:
+        if show_cartopy_map:
             aspect_ratio = (longitude_trimmed.max() - longitude_trimmed.min()) / (latitude_trimmed.max() - latitude_trimmed.min())
 
             # Create a map using PlateCarree projection
