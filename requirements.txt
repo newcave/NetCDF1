@@ -1,0 +1,8 @@
+streamlit
+pandas
+numpy
+matplotlib.pyplot
+seaborn
+statsmodels.api 
+folium
+netCDF4 
