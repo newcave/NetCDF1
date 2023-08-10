@@ -41,8 +41,10 @@ if uploaded_file is not None:
             # Create a Folium map
             m = folium.Map(location=[latitude_trimmed.mean(), longitude_trimmed.mean()], zoom_start=10)
 
-            # Add heatmap layer to the map
-            folium.plugins.HeatMap(data=list(zip(latitude_trimmed.ravel(), longitude_trimmed.ravel(), rain_trimmed.ravel())), radius=10).add_to(m)
+            # Add heatmap layer to the map using Folium's heatmap function
+            heatmap_data = list(zip(latitude_trimmed.ravel(), longitude_trimmed.ravel(), rain_trimmed.ravel()))
+            folium.TileLayer('cartodbpositron').add_to(m)
+            folium.HeatMap(heatmap_data, radius=10, blur=20).add_to(m)
 
             # Display the map using Streamlit's folium_static
             st.write("Rainfall Heatmap")
