@@ -8,3 +8,5 @@ statsmodels
 #statsmodels.api
 folium
 netCDF4
+os
+cartopy
