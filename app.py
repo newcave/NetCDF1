@@ -74,7 +74,16 @@ if uploaded_file is not None:
             ax1.set_xlabel('Longitude')
             ax1.set_ylabel('Latitude')
             ax1.coastlines()
+
+            xticks = np.arange(longitude_trimmed.min(), longitude_trimmed.max() + 1, 2)  # Customize the tick positions as needed
+            yticks = np.arange(latitude_trimmed.min(), latitude_trimmed.max() + 1, 2)  # Customize the tick positions as needed
+            ax1.set_xticks(xticks, crs=ccrs.PlateCarree())
+            ax1.set_yticks(yticks, crs=ccrs.PlateCarree())
+            ax1.xaxis.set_major_formatter(plt.FixedFormatter(np.abs(xticks)))
+            ax1.yaxis.set_major_formatter(plt.FixedFormatter(np.abs(yticks)))
             st.pyplot(fig2)
+            
+    
             
             # Display the heatmap using Matplotlib
             aspect_ratio = (longitude_trimmed.max() - longitude_trimmed.min()) / (latitude_trimmed.max() - latitude_trimmed.min())
