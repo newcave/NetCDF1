@@ -8,15 +8,15 @@ import folium
 import netCDF4 as nc
 
 # Load NetCDF data
-path = '/data/RN_KMA_NetCDF_2023081421.NC'
+path = '../data/RN_KMA_NetCDF_2023081421.NC'
 df = nc.Dataset(path)
 
 df_var = df.variables['rain'][:]
 rain_array = np.array(df_var)
 
 # Load latitude and longitude data
-lat_data = pd.read_csv('/data/dongne_lat_info.txt', header=None).values
-lon_data = pd.read_csv('/data/dongne_lon_info.txt', header=None).values
+lat_data = pd.read_csv('../data/dongne_lat_info.txt', header=None).values
+lon_data = pd.read_csv('../data/dongne_lon_info.txt', header=None).values
 
 latitude_array = lat_data
 longitude_array = lon_data
