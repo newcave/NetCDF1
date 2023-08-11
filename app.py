@@ -9,19 +9,11 @@ import netCDF4 as nc
 import os
 import cartopy.crs as ccrs
 
-
+# Create a Streamlit app
 st.title('Rainfall Prediction - KMA')
-st.sidebar.title('Select Default File')
-default_files = {
-    '2023-08-14 21:00': './data/RN_KMA_NetCDF_2023081421.NC',
-    '2023-08-14 00:00': './data/RN_KMA_NetCDF_2023081400.NC'
-}
-selected_default_file = st.sidebar.selectbox("Select a Default File", list(default_files.keys()))
-
-# Use the selected default file
-default_file_path = default_files[selected_default_file]
-uploaded_file_name = default_file_path
-st.sidebar.write(f"Using Default File: {os.path.basename(uploaded_file_name)}")
+st.sidebar.title('Upload NetCDF File')
+uploaded_file = st.sidebar.file_uploader("Upload your NetCDF file", type=["nc"])
+use_default_file = st.sidebar.checkbox("Use Default File")
 
 if use_default_file:
     default_file_path = './data/RN_KMA_NetCDF_2023081421.NC'
