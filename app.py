@@ -15,39 +15,19 @@ st.sidebar.title('Upload NetCDF File')
 uploaded_file = st.sidebar.file_uploader("Upload your NetCDF file", type=["nc"])
 use_default_file = st.sidebar.checkbox("Use Default File")
 
-if file_option == "Upload File":
-    uploaded_file = st.sidebar.file_uploader("Upload your NetCDF file", type=["nc"])
+if use_default_file:
+    default_file_path = './data/RN_KMA_NetCDF_2023081421.NC'
+    uploaded_file_name = default_file_path
+    st.sidebar.write(f"Using Default File: {os.path.basename(uploaded_file_name)}")
 
+else:
     if uploaded_file is not None:
+        # Load NetCDF data
+        with open(uploaded_file.name, "wb") as f:
+            f.write(uploaded_file.read())
         uploaded_file_name = uploaded_file.name
-        file_path = uploaded_file_name
     else:
         uploaded_file_name = None
-        file_path = None
-
-elif file_option == "Use Default File":
-    selected_default_file = st.sidebar.selectbox("Select a Default File", default_files)
-
-    # Specify the GitHub repository's URL and the path to the /data directory
-    github_repo_url = "https://github.com/your-username/your-repo-name/raw/main"
-    data_dir = "data"
-
-    # Construct the full file URL
-    file_url = f"{github_repo_url}/{data_dir}/{selected_default_file}"
-
-    # Download the file using requests
-    response = requests.get(file_url)
-    if response.status_code == 200:
-        uploaded_file_name = selected_default_file
-        file_path = uploaded_file_name
-
-        # Save the downloaded file locally
-        with open(uploaded_file_name, "wb") as f:
-            f.write(response.content)
-    else:
-        st.write(f"Error downloading file: {response.status_code}")
-        uploaded_file_name = None
-        file_path = None
 
 if uploaded_file_name is not None:
     try:
