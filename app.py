@@ -113,8 +113,10 @@ if uploaded_file_name is not None:
     except Exception as e:
         st.write("Error during loading:", e)
     finally:
-        if file_option == "Upload File" and uploaded_file_name is not None:
-            os.remove(uploaded_file_name)  # Remove the temporary uploaded file
+        if file_option == "Upload File" and file_path is not None:
+    os.remove(file_path)
+
+
 
 else:
     st.write("Please upload a NetCDF file using the sidebar.")
