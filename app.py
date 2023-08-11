@@ -13,6 +13,22 @@ import cartopy.crs as ccrs
 st.title('Rainfall Prediction - KMA')
 st.sidebar.title('Upload NetCDF File')
 uploaded_file = st.sidebar.file_uploader("Upload your NetCDF file", type=["nc"])
+use_default_file = st.sidebar.checkbox("Use Default File")
+
+#-------
+if use_default_file:
+    default_file_path = './data/RN_KMA_NetCDF_2023081421.NC'
+    uploaded_file_name = default_file_path
+else:
+    if uploaded_file is not None:
+        # Load NetCDF data
+        with open(uploaded_file.name, "wb") as f:
+            f.write(uploaded_file.read())
+        uploaded_file_name = uploaded_file.name
+    else:
+        uploaded_file_name = None
+
+#-------
 
 show_cartopy_map = st.sidebar.checkbox("Un-check for larger Images", value=True)
 
