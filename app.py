@@ -17,7 +17,8 @@ use_default_file = st.sidebar.checkbox("Use Default File")
 
 if use_default_file:
     default_file_path = './data/RN_KMA_NetCDF_2023081421.NC'
-    uploaded_file_name = default_file_path
+    default_file_path2 = './data/RN_KMA_NetCDF_2023081400.NC'
+    uploaded_file_name = st.sidebar.selectbox("Select Default File", [default_file_path, default_file_path2])
     st.sidebar.write(f"Using Default File: {os.path.basename(uploaded_file_name)}")
 
 else:
