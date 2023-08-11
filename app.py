@@ -9,26 +9,34 @@ import netCDF4 as nc
 import os
 import cartopy.crs as ccrs
 
-# Create a Streamlit app
+
 st.title('Rainfall Prediction - KMA')
-st.sidebar.title('Choose Data Source')
+st.sidebar.title('Select Default File')
+default_files = {
+    '2023-08-14 21:00': './data/RN_KMA_NetCDF_2023081421.NC',
+    '2023-08-14 00:00': './data/RN_KMA_NetCDF_2023081400.NC'
+}
+selected_default_file = st.sidebar.selectbox("Select a Default File", list(default_files.keys()))
 
-# Option to choose between default files or upload a new NetCDF file
-data_source = st.sidebar.radio("Select Data Source", ("Default File", "Upload NetCDF File"))
+# Use the selected default file
+default_file_path = default_files[selected_default_file]
+uploaded_file_name = default_file_path
+st.sidebar.write(f"Using Default File: {os.path.basename(uploaded_file_name)}")
 
-if data_source == "Default File":
-    default_file_options = {
-        'RN_KMA_NetCDF_2023081421.NC': './data/RN_KMA_NetCDF_2023081421.NC',
-        'RN_KMA_NetCDF_2023081400.NC': './data/RN_KMA_NetCDF_2023081400.NC'
-    }
-    selected_default_file = st.sidebar.selectbox("Select a default NetCDF file", list(default_file_options.keys()))
-    uploaded_file_name = default_file_options[selected_default_file]
+if use_default_file:
+    default_file_path = './data/RN_KMA_NetCDF_2023081421.NC'
+    uploaded_file_name = default_file_path
     st.sidebar.write(f"Using Default File: {os.path.basename(uploaded_file_name)}")
-else:
-    uploaded_file = st.sidebar.file_uploader("Upload your NetCDF file", type=["nc"])
-    uploaded_file_name = None
 
-# Load NetCDF data
+else:
+    if uploaded_file is not None:
+        # Load NetCDF data
+        with open(uploaded_file.name, "wb") as f:
+            f.write(uploaded_file.read())
+        uploaded_file_name = uploaded_file.name
+    else:
+        uploaded_file_name = None
+
 if uploaded_file_name is not None:
     try:
         df = nc.Dataset(uploaded_file_name)
@@ -101,7 +109,7 @@ if uploaded_file_name is not None:
     except Exception as e:
         st.write("Error during loading:", e)
     finally:
-        if data_source != "Default File" and uploaded_file_name is not None:
+        if not use_default_file:
             os.remove(uploaded_file_name)  # Remove the temporary uploaded file
 
 else:
