@@ -11,23 +11,35 @@ import cartopy.crs as ccrs
 
 # Create a Streamlit app
 st.title('Rainfall Prediction - KMA')
-st.sidebar.title('Upload NetCDF File')
-uploaded_file = st.sidebar.file_uploader("Upload your NetCDF file", type=["nc"])
-use_default_file = st.sidebar.checkbox("Use Default File")
+st.sidebar.title('Select NetCDF File')
 
-if use_default_file:
-    default_file_path = './data/RN_KMA_NetCDF_2023081421.NC'
-    uploaded_file_name = default_file_path
-    st.sidebar.write(f"Using Default File: {os.path.basename(uploaded_file_name)}")
+# List of default file names in the ./data/ directory
+default_files = [
+    "RN_KMA_NetCDF_2023081421.NC",
+    "other_default_file.nc",
+    # Add more default file names here...
+]
 
-else:
+# Create a dropdown widget to select either an uploaded file or a default file
+file_option = st.sidebar.radio("Select a File Option", ("Upload File", "Use Default File"))
+
+if file_option == "Upload File":
+    uploaded_file = st.sidebar.file_uploader("Upload your NetCDF file", type=["nc"])
+
     if uploaded_file is not None:
-        # Load NetCDF data
-        with open(uploaded_file.name, "wb") as f:
-            f.write(uploaded_file.read())
         uploaded_file_name = uploaded_file.name
+        file_path = uploaded_file_name
     else:
         uploaded_file_name = None
+        file_path = None
+
+elif file_option == "Use Default File":
+    selected_default_file = st.sidebar.selectbox("Select a Default File", default_files)
+
+    # Construct the file path for the selected default file
+    file_path = os.path.join('./data', selected_default_file)
+
+    uploaded_file_name = file_path
 
 if uploaded_file_name is not None:
     try:
@@ -101,7 +113,7 @@ if uploaded_file_name is not None:
     except Exception as e:
         st.write("Error during loading:", e)
     finally:
-        if not use_default_file:
+        if file_option == "Upload File" and uploaded_file_name is not None:
             os.remove(uploaded_file_name)  # Remove the temporary uploaded file
 
 else:
