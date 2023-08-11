@@ -18,6 +18,8 @@ use_default_file = st.sidebar.checkbox("Use Default File")
 if use_default_file:
     default_file_path = './data/RN_KMA_NetCDF_2023081421.NC'
     uploaded_file_name = default_file_path
+    st.sidebar.write(f"Using Default File: {os.path.basename(uploaded_file_name)}")
+
 else:
     if uploaded_file is not None:
         # Load NetCDF data
