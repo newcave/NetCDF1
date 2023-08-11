@@ -15,7 +15,6 @@ st.sidebar.title('Upload NetCDF File')
 uploaded_file = st.sidebar.file_uploader("Upload your NetCDF file", type=["nc"])
 use_default_file = st.sidebar.checkbox("Use Default File")
 
-#-------
 if use_default_file:
     default_file_path = './data/RN_KMA_NetCDF_2023081421.NC'
     uploaded_file_name = default_file_path
@@ -28,17 +27,9 @@ else:
     else:
         uploaded_file_name = None
 
-#-------
-
-show_cartopy_map = st.sidebar.checkbox("Un-check for larger Images", value=True)
-
-if uploaded_file is not None:
-    # Load NetCDF data
-    with open(uploaded_file.name, "wb") as f:
-        f.write(uploaded_file.read())
-    
+if uploaded_file_name is not None:
     try:
-        df = nc.Dataset(uploaded_file.name)
+        df = nc.Dataset(uploaded_file_name)
         df_var = df.variables['rain'][:]
         rain_array = np.array(df_var)
 
@@ -55,6 +46,9 @@ if uploaded_file is not None:
 
         # Trim the rain_array to match the shape of trimmed latitude and longitude arrays
         rain_trimmed = rain_array[:latitude_trimmed.shape[0], :latitude_trimmed.shape[1]]
+
+        # Check if the checkbox for Cartopy map display is checked
+        show_cartopy_map = st.sidebar.checkbox("Un-check for larger Images", value=True)
 
         if show_cartopy_map:
             aspect_ratio = (longitude_trimmed.max() - longitude_trimmed.min()) / (latitude_trimmed.max() - latitude_trimmed.min())
@@ -78,10 +72,9 @@ if uploaded_file is not None:
             ax2.set_ylabel('Latitude')
             ax2.set_xticks(np.linspace(longitude_trimmed.min(), longitude_trimmed.max(), num=5))
             ax2.set_yticks(np.linspace(latitude_trimmed.min(), latitude_trimmed.max(), num=5))
-    
+
             # Display the plots using Streamlit
             st.pyplot(fig)
-
 
         else:
             fig2, ax1 = plt.subplots(figsize=(10, 8), subplot_kw={'projection': ccrs.PlateCarree()})
@@ -91,8 +84,8 @@ if uploaded_file is not None:
             ax1.set_ylabel('Latitude')
             ax1.coastlines()
 
-            xticks = np.arange(longitude_trimmed.min(), longitude_trimmed.max() + 1, 2)  
-            yticks = np.arange(latitude_trimmed.min(), latitude_trimmed.max() + 1, 2) 
+            xticks = np.arange(longitude_trimmed.min(), longitude_trimmed.max() + 1, 2)
+            yticks = np.arange(latitude_trimmed.min(), latitude_trimmed.max() + 1, 2)
             ax1.set_xticks(xticks, crs=ccrs.PlateCarree())
             ax1.set_yticks(yticks, crs=ccrs.PlateCarree())
             ax1.xaxis.set_major_formatter(plt.FixedFormatter(np.abs(xticks)))
@@ -102,25 +95,12 @@ if uploaded_file is not None:
             ax1.set_xticklabels(xticklabels)
             ax1.set_yticklabels(yticklabels)
             st.pyplot(fig2)
-            
-    
-            
-            # Display the heatmap using Matplotlib
-            aspect_ratio = (longitude_trimmed.max() - longitude_trimmed.min()) / (latitude_trimmed.max() - latitude_trimmed.min())
-            fig = plt.figure(figsize=(6 * aspect_ratio, 6))
-            plt.imshow(rain_trimmed, cmap='rainbow', extent=[longitude_trimmed.min(), longitude_trimmed.max(), latitude_trimmed.min(), latitude_trimmed.max()], vmax=5, origin='lower')
-            plt.colorbar(label='mm/hr', orientation='vertical')
-            plt.title('Rainfall_Pred_KMA')
-            plt.xlabel('Longitude')
-            plt.ylabel('Latitude')
-            st.pyplot(fig)
-            
-
 
     except Exception as e:
         st.write("Error during loading:", e)
     finally:
-        os.remove(uploaded_file.name)  # Remove the temporary uploaded file
+        if not use_default_file:
+            os.remove(uploaded_file_name)  # Remove the temporary uploaded file
 
 else:
     st.write("Please upload a NetCDF file using the sidebar.")
