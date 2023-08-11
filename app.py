@@ -114,7 +114,7 @@ if uploaded_file_name is not None:
         st.write("Error during loading:", e)
     finally:
         if file_option == "Upload File" and file_path is not None:
-    os.remove(file_path)
+           os.remove(file_path)
 
 
 
